@@ -1,6 +1,6 @@
 {
   "name": "svelte-typescript-component-template",
-  "svelte": "dist/index.js",
+  "svelte": "dist/index.mjs",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "src/index.d.ts",
