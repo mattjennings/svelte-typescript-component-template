@@ -1,0 +1,38 @@
+{
+  "name": "svelte-typescript-component-template",
+  "svelte": "dist/index.js",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "prebuild": "rm -rf ./dist",
+    "build": "tsc --outDir ./dist --declaration && node scripts/preprocess.js && rollup -c",
+    "dev": "rollup -c -w",
+    "validate": "svelte-check",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-typescript": "^5.0.2",
+    "@tsconfig/svelte": "^1.0.2",
+    "fs-extra": "^9.0.1",
+    "glob-move": "^1.0.1",
+    "glob": "^7.1.6",
+    "rollup": "^2.21.0",
+    "rollup-plugin-filesize": "^9.0.2",
+    "rollup-plugin-svelte": "^5.2.3",
+    "rollup-plugin-terser": "^6.1.0",
+    "svelte": "^3.24.0",
+    "svelte-check": "^0.1.51",
+    "svelte-preprocess": "^4.0.7",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.6"
+  },
+  "keywords": [
+    "svelte"
+  ]
+}
