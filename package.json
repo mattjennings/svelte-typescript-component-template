@@ -1,12 +1,12 @@
 {
   "name": "svelte-typescript-component-template",
-  "svelte": "dist/index.mjs",
+  "svelte": "dist/index.js",
   "module": "dist/index.mjs",
-  "main": "dist/index.js",
+  "main": "dist/index.umd.js",
   "types": "src/index.d.ts",
   "scripts": {
     "prebuild": "rm -rf ./dist",
-    "build": "tsc --outDir ./dist --declaration && node scripts/preprocess.js && rollup -c",
+    "build": "rollup -c",
     "dev": "rollup -c -w",
     "validate": "svelte-check",
     "prepublishOnly": "npm run build"
@@ -23,6 +23,7 @@
     "glob": "^7.1.6",
     "glob-move": "^1.0.1",
     "rollup": "^2.32.0",
+    "rollup-plugin-execute": "^1.1.1",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-svelte": "^6.0.1",
     "rollup-plugin-terser": "^7.0.2",

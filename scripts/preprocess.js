@@ -45,8 +45,6 @@ async function preprocessSvelte(src, dest) {
       typescript: {
         compilerOptions: {
           sourceMap: false,
-          outDir: "./dist",
-          declaration: true,
         },
       },
     }),
