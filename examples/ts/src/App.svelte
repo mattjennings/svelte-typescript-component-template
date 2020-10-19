@@ -17,5 +17,5 @@
 </style>
 
 <main>
-    <Component name="World" />
+  <Component name="World" />
 </main>
