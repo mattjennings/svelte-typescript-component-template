@@ -2,7 +2,7 @@
 
 A base for building shareable Svelte components written in Typescript.
 
-This is based on [sveltejs/component-template](https://github.com/sveltejs/component-template) and adds support for [consuming .svelte source code](#consuming-components) without requiring consumers to use Typescript.
+This is based on [sveltejs/component-template](https://github.com/sveltejs/component-template) and allows consumers to import the .svelte components without requiring Typescript (see ["Consuming Components"](#consuming-components) below).
 
 ```bash
 npx degit mattjennings/svelte-typescript-component-template my-component
@@ -14,12 +14,12 @@ Your component's source code lives in `src/Component.svelte`.
 
 You can create a package that exports multiple components by adding them to the `src` directory and editing `src/index.ts` to reexport them as named exports.
 
-## Setting up
+## Setting Up
 
 - Run `npm init` (or `yarn init`)
 - Replace this README with your own
 
-## Consuming components
+## Consuming Components
 
 Your package.json has a `"svelte"` field pointing to `src/index.js`, which allows Svelte apps to import the source code directly, if they are using a bundler plugin like [rollup-plugin-svelte](https://github.com/sveltejs/rollup-plugin-svelte) or [svelte-loader](https://github.com/sveltejs/svelte-loader) (where [`resolve.mainFields`](https://webpack.js.org/configuration/resolve/#resolve-mainfields) in your webpack config includes `"svelte"`). **This is recommended.**
 
