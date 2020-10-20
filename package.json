@@ -21,7 +21,6 @@
     "@tsconfig/svelte": "^1.0.10",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
-    "glob-move": "^1.0.1",
     "rollup": "^2.32.0",
     "rollup-plugin-execute": "^1.1.1",
     "rollup-plugin-filesize": "^9.0.2",

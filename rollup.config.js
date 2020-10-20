@@ -20,7 +20,9 @@ export default {
       sourcemap: true,
       plugins: [
         execute([
-          "tsc --outDir ./dist --declaration",
+          // todo: only tsc once if possible
+          "tsc --outDir ./dist", // create index.js file for pkg.svelte
+          "tsc --outDir ./dist/ts --declaration --emitDeclarationOnly", // create types files for ts users
           "node scripts/preprocess.js",
         ]),
       ],

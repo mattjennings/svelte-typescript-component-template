@@ -1,7 +1,6 @@
 const fs = require("fs-extra");
 const glob = require("glob");
 const path = require("path");
-const move = require("glob-move");
 const svelte = require("svelte/compiler");
 const sveltePreprocess = require("svelte-preprocess");
 
@@ -29,9 +28,6 @@ async function main() {
       )
     );
   });
-
-  // move .d.ts files to /dist/ts
-  await move(path.join(destPath, "**/*.d.ts"), path.join(destPath, "ts"));
 }
 
 async function preprocessSvelte(src, dest) {
