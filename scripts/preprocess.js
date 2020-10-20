@@ -1,6 +1,5 @@
 const fs = require("fs-extra");
 const glob = require("glob");
-const move = require("glob-move");
 const path = require("path");
 const svelte = require("svelte/compiler");
 const sveltePreprocess = require("svelte-preprocess");
@@ -51,7 +50,7 @@ async function preprocessSvelte(src, dest) {
   );
 
   // remove lang=ts from processed .svelte files
-  code = code.replace('script lang="ts"', "script");
+  code = code.replace(/script lang="ts"/g, "script");
 
   const destDir = dest
     .split("/")
