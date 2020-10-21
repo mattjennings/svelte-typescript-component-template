@@ -4,34 +4,46 @@ const path = require("path");
 const svelte = require("svelte/compiler");
 const sveltePreprocess = require("svelte-preprocess");
 
+const basePath = path.resolve(__dirname, "../");
+const srcPath = path.resolve(basePath, "src");
+const distPath = path.resolve(basePath, "dist");
+
 /**
  * This will process .svelte files into plain javascript so consumers do not have to setup Typescript to use this library
  *
- * Additionally, it will copy .d.ts files back into /src so Typescript users still get the correct types for .svelte files
+ * Additionally, it will move the .d.ts files into /dist/ts
  */
 async function main() {
-  const basePath = path.resolve(__dirname, "../");
-  const srcPath = path.resolve(basePath, "src");
-  const destPath = path.resolve(basePath, "dist");
-
   // get all .svelte files
   glob(path.join(srcPath, "**/*.svelte"), null, async function (err, files) {
     if (err) throw err;
-
     // process them
+    await Promise.all(files.map((filePath) => preprocessSvelte(filePath)));
+  });
+
+  // move .d.ts files into /dist/ts
+  glob(path.join(distPath, "**/*.d.ts"), null, async function (err, files) {
+    if (err) throw err;
+    const tsPath = path.join(distPath, "ts");
+
     await Promise.all(
-      files.map((filePath) =>
-        preprocessSvelte(
-          filePath,
-          path.join(destPath, filePath.split(srcPath)[1])
-        )
-      )
+      files.map(async (filePath) => {
+        // ignore anything in /dist/ts (could probably make a better glob pattern)
+        if (!filePath.includes(tsPath)) {
+          await fs.move(filePath, filePath.replace(distPath, tsPath), {
+            overwrite: true,
+          });
+        }
+      })
     );
   });
 }
 
-async function preprocessSvelte(src, dest) {
-  const srcCode = await fs.readFile(src, { encoding: "utf-8" });
+/**
+ * Processes .svelte file and write it to /dist, also copies the original .svelte file to /dist/ts
+ */
+async function preprocessSvelte(filePath) {
+  const srcCode = await fs.readFile(filePath, { encoding: "utf-8" });
   let { code } = await svelte.preprocess(
     srcCode,
     sveltePreprocess({
@@ -45,25 +57,22 @@ async function preprocessSvelte(src, dest) {
       },
     }),
     {
-      filename: src,
+      filename: filePath,
     }
   );
 
   // remove lang=ts from processed .svelte files
   code = code.replace(/script lang="ts"/g, "script");
 
-  const destDir = dest
-    .split("/")
-    .slice(0, dest.split("/").length - 1)
-    .join("/");
+  const relativePath = filePath.split(srcPath)[1];
+  const destination = path.join(distPath, filePath.split(srcPath)[1]);
 
   // write preprocessed svelte file to /dist
-  await fs.ensureFile(dest);
-  await fs.writeFile(dest, code, { encoding: "utf-8" });
+  await fs.ensureFile(destination);
+  await fs.writeFile(destination, code, { encoding: "utf-8" });
 
   // write the unprocessed svelte component to /dist/ts/ so we can have correct types for ts users
-  const fileName = dest.split(destDir)[1];
-  const tsDest = path.join(destDir, "ts", fileName);
+  const tsDest = path.join(distPath, "ts", relativePath);
   await fs.ensureFile(tsDest);
   await fs.writeFile(tsDest, srcCode, {
     encoding: "utf-8",
