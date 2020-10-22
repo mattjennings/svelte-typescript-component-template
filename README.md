@@ -5,7 +5,7 @@ A base for building shareable Svelte components written in Typescript.
 This is based on [sveltejs/component-template](https://github.com/sveltejs/component-template) and allows consumers to import the .svelte components without requiring Typescript (see ["Consuming Components"](#consuming-components) below).
 
 ```bash
-npx degit mattjennings/svelte-typescript-component-template my-component
+npx degit mattjennings/svelte-typescript-component-template#main my-component
 cd my-component
 npm install # or yarn
 ```
