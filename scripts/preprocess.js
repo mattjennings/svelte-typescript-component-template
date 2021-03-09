@@ -18,7 +18,7 @@ async function main() {
   glob(path.join(srcPath, "**/*.svelte"), null, async function (err, files) {
     if (err) throw err;
     // process them
-    await Promise.all(files.map((filePath) => preprocessSvelte(filePath)));
+    await Promise.all(files.map((filePath) => preprocessSvelte(path.resolve(filePath))));
   });
 
   // move .d.ts files into /dist/ts
@@ -28,6 +28,7 @@ async function main() {
 
     await Promise.all(
       files.map(async (filePath) => {
+        filePath = path.resolve(filePath);
         // ignore anything in /dist/ts (could probably make a better glob pattern)
         if (!filePath.includes(tsPath)) {
           await fs.move(filePath, filePath.replace(distPath, tsPath), {
